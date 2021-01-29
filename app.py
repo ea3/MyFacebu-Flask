@@ -5,10 +5,10 @@ import os
 from dotenv import load_dotenv
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 posts = [
     {
