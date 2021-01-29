@@ -1,21 +1,28 @@
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import render_template, url_for, flash, redirect
+from app import app
 from app.forms import RegistrationForm, LoginForm
-import os
-from dotenv import load_dotenv
-from flask_sqlalchemy import SQLAlchemy
+from app.models import User, Post
 
-app = Flask(__name__)
-basedir = os.path.abspath(os.path.dirname(__file__))
-load_dotenv(os.path.join(basedir, '.env'))
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-db = SQLAlchemy(app)
+posts = [
+    {
+        'author': 'Emilio',
+        'title': 'Blog Post 1',
+        'content': 'First post content',
+        'date_posted': 'August 20, 2021'
+    },
+    {
+        'author': 'Mariela',
+        'title': 'Blog Post 2',
+        'content': 'Second post content',
+        'date_posted': 'August 21, 2021'
+    }
+]
 
 
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    return render_template('home.html', posts=posts)
 
 
 @app.route('/about')
@@ -39,7 +46,3 @@ def login():
     if form.validate_on_submit():
         pass
     return render_template('login.html', title='Login', form=form)
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
